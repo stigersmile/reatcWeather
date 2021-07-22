@@ -71,3 +71,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ## CH5
+- dayJS 跨瀏覽器支援
+- API& handle click
+- useEffect元件轉譯render完才會呼叫useEffect內的function
+- isLoading
+- 兩個fetch 更改狀態
+- promise & async 畫面更新 將抓取函式和APP拆開
+- useCallback:避免function component 每次重新執行後,寒士相同卻會被重新定義
