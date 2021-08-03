@@ -1,15 +1,17 @@
 
 import './App.css';
 import styled from '@emotion/styled';
-import React,{useState, useEffect} from 'react';
-
-import { ReactComponent as DayCloudyIcon } from './images/day-cloudy.svg';
+import React,{useState, useEffect, useMemo} from 'react';
 import { ReactComponent as AirFlowIcon } from './images/airFlow.svg';
 import { ReactComponent as RainIcon } from './images/rain.svg';
 import { ReactComponent as RefreshIcon } from './images/refresh.svg';
 import { ReactComponent as LoadingIcon } from './images/loading.svg';
+import WeatherIcon from './components/WeatherIcon';
+import {getMoment} from './utils/helpers';
 
 
+
+ 
 const Container = styled.div`
   background-color: #ededed;
   height: 100%;
@@ -124,6 +126,8 @@ const App = () => {
 
 console.log("invoke function component")
 
+const moment = useMemo(()=>getMoment(LOCATION_NAME_FORECAST),[]);
+
 const fetchData = async () =>{
 setWeatherElement((prevState)=>({
     ...prevState,
@@ -187,13 +191,16 @@ return fetch(`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Auth
         neededElements[item.elementName] = item.time[0].parameter;
       }
       return neededElements;
-    });
+    }, {}
+    );
 
     console.log(weatherElements);
 
     return{
       rainPossibility: weatherElements.PoP.parameterName,
       comfortability: weatherElements.CI.parameterName,
+      description: weatherElements.Wx.parameterName,
+      weatherCode: weatherElements.Wx.parameterValue,
     }
     // setWeatherElement((preState)=>({
     //  ...preState,
@@ -223,6 +230,7 @@ confortability:"",
   });
 
   const{
+    weatherCode,
     locationName,
     description,
     windSpeed,
@@ -244,7 +252,8 @@ confortability:"",
     <Temperature>
     {temperature}<Celsius>C</Celsius>
     </Temperature>
-    <DayCloudyIcon/>
+    <WeatherIcon weatherCode={weatherCode} moment={moment} />
+
     </CurrentWeather>
     <AirFlow><AirFlowIcon/>{windSpeed} m/h</AirFlow>
     <Rain><RainIcon/>{Math.round(rainPossibility)} %</Rain>
