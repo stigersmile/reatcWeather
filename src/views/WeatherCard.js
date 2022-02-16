@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-// import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import WeatherIcon from "./../components/WeatherIcon.js";
 import { ReactComponent as AirFlowIcon } from "./../images/airFlow.svg";
 import { ReactComponent as RainIcon } from "./../images/rain.svg";
@@ -132,12 +132,12 @@ const WeatherCard = ({ weatherElement, moment, fetchData }) => {
         <RainIcon />
         {Math.round(rainPossibility)} %
       </Rain>
-      <Refresh isLoading={isLoading} onClick={fetchData}>
-        最後觀測時間{" "}
-        {new Intl.DateTimeFormat("zh-Tw", {
+      <Refresh onClick={fetchData} isLoading={isLoading}>
+        最後觀測時間：
+        {new Intl.DateTimeFormat("zh-TW", {
           hour: "numeric",
           minute: "numeric",
-        }).format(new Date(observationTime))}
+        }).format(dayjs(observationTime))}{" "}
         {isLoading ? <LoadingIcon /> : <RefreshIcon />}
       </Refresh>
 
